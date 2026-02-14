@@ -46,39 +46,13 @@ to{transform:rotate(360deg);}
 
 <script>
 
-const BACKEND_URL = "https://med-vice.onrender.com";
+// 🔥 ALWAYS redirect to backend
+window.location.href = "https://med-vice.onrender.com/home";
 
-async function checkServer(){
-
-try{
-
-const res = await fetch(
-BACKEND_URL + "/health?ts=" + Date.now(),
-{
-method:"GET",
-cache:"no-store",
-mode:"cors"
-});
-
-if(res.ok){
-
-// ✅ PUT IT HERE
-window.location.replace(
-"https://med-vice.onrender.com/home"
-);
-
-return;
-
-}
-
-}catch(e){}
-
-// retry after 2 seconds
-setTimeout(checkServer,2000);
-
-}
-
-checkServer();
+// fallback retry
+setTimeout(function(){
+window.location.href = "https://med-vice.onrender.com/home";
+},3000);
 
 </script>
 
