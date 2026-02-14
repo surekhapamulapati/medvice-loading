@@ -86,31 +86,33 @@ async function checkServer(){
 
 try{
 
-const res = await fetch(
+const response = await fetch(
 backend + "/health?ts=" + Date.now(),
 {
-method:"GET",
-cache:"no-store"
-}
-);
+method: "GET",
+mode: "cors",
+cache: "no-store"
+});
 
-if(res.status === 200){
+console.log("Health status:", response.status);
 
-console.log("Server awake. Redirecting...");
+if(response.status === 200){
 
-window.location.replace(backend + "/home");
+console.log("Server awake. Redirecting now...");
+
+window.location.href = backend + "/home";
 
 return;
 
 }
 
-}catch(e){
+}catch(error){
 
-console.log("Still sleeping...");
+console.log("Server still sleeping...");
 
 }
 
-setTimeout(checkServer,2000);
+setTimeout(checkServer, 2000);
 
 }
 
