@@ -82,27 +82,35 @@ animation:dots 1.5s infinite;
 
 const backend = "https://med-vice.onrender.com";
 
-function checkServer(){
+async function checkServer(){
 
-fetch(backend + "/health?ts=" + new Date().getTime(), {
-cache: "no-store"
-})
+try{
 
-.then(res=>{
+const res = await fetch(
+backend + "/health?ts=" + Date.now(),
+{
+method:"GET",
+cache:"no-store"
+}
+);
 
-if(res.ok){
+if(res.status === 200){
 
-window.location.href = backend + "/home";
+console.log("Server awake. Redirecting...");
 
-}else{
-setTimeout(checkServer,2000);
+window.location.replace(backend + "/home");
+
+return;
+
 }
 
-})
+}catch(e){
 
-.catch(()=>{
+console.log("Still sleeping...");
+
+}
+
 setTimeout(checkServer,2000);
-});
 
 }
 
