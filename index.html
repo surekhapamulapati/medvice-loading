@@ -80,11 +80,13 @@ animation:dots 1.5s infinite;
 
 <script>
 
-const backend = "https://med-vice.onrender.com"; // 🔥 CHANGE THIS
+const backend = "https://med-vice.onrender.com";
 
 function checkServer(){
 
-fetch(backend + "/health")
+fetch(backend + "/health?ts=" + new Date().getTime(), {
+cache: "no-store"
+})
 
 .then(res=>{
 
@@ -92,13 +94,15 @@ if(res.ok){
 
 window.location.href = backend + "/home";
 
+}else{
+setTimeout(checkServer,2000);
 }
 
 })
 
-.catch(()=>{})
-
-setTimeout(checkServer,3000);
+.catch(()=>{
+setTimeout(checkServer,2000);
+});
 
 }
 
